@@ -67,6 +67,9 @@ public class ShooterScript : MonoBehaviour {
 	//synconizes projectile properties with shooter's properties, namely Mouse aim and main camera
 	private void spawnProjectile(){
 		GameObject proj = (GameObject)Instantiate (projectile, transform.position + spawnPt, Quaternion.identity);
+		//proj.transform.Rotate (-90, 90, 0);
+
+		//GameObject proj = (GameObject)Instantiate (projectile, transform.position + spawnPt);
 		projectileScript pScript = proj.GetComponent<projectileScript> ();
 		pScript.mouseAim = mouseAim;
 		pScript.mainCamera = mainCamera;
