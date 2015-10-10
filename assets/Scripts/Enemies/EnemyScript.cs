@@ -67,7 +67,7 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
-		Destroy (gameObject);
 		Destroy (other.gameObject);
+		Destroy (gameObject);
 	}
 }

@@ -44,6 +44,7 @@ public class Builder : MonoBehaviour {
 			}
 		}
 
+		/*
 		// for testing
 		if (Input.GetKeyDown("space")) {
 			GameObject bulletPlaceholder = Resources.Load<GameObject>("Bullet");
@@ -56,6 +57,7 @@ public class Builder : MonoBehaviour {
 				}
 			}
 		}
+		//*/
 	}
 
 	void OnGUI() {
@@ -65,6 +67,10 @@ public class Builder : MonoBehaviour {
 
 		if (GUI.Button(new Rect(145, 5, 128, 28), "Archer")) {
 			placeholder = Resources.Load<GameObject>("Archer");
+		}
+
+		if (GUI.Button(new Rect(285, 5, 128, 28), "Crossbow")) {
+			placeholder = Resources.Load<GameObject>("Crossbow");
 		}
 	}
 
