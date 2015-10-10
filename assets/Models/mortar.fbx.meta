@@ -1,34 +1,15 @@
 fileFormatVersion: 2
-guid: b188056f5cd6e124d851e18a0eaab91c
-timeCreated: 1444505335
+guid: 34a657a88c42b76419104b7e87a110c5
+timeCreated: 1444509040
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: BrickBlock.001
-    100002: //RootNode
-    100004: Circle.004
-    100006: Circle.005
-    100008: Cube.006
-    400000: BrickBlock.001
-    400002: //RootNode
-    400004: Circle.004
-    400006: Circle.005
-    400008: Cube.006
-    2300000: BrickBlock.001
-    2300002: Circle.004
-    2300004: Circle.005
-    2300006: Cube.006
-    2300008: //RootNode
-    3300000: BrickBlock.001
-    3300002: Circle.004
-    3300004: Circle.005
-    3300006: Cube.006
-    3300008: //RootNode
-    4300000: BrickBlock.001
-    4300002: Circle.005
-    4300004: Circle.004
-    4300006: Cube.006
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Circle.006
   materials:
     importMaterials: 1
     materialName: 0
