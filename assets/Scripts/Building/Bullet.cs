@@ -4,7 +4,7 @@ using System.Collections;
 public class Bullet : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col) {
-		Destroy(col.collider.gameObject);
-		Destroy(gameObject);
+		//Destroy(col.collider.gameObject);
+		//Destroy(gameObject);
 	}
 }
