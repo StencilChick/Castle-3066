@@ -7,7 +7,7 @@ public class Builder : MonoBehaviour {
 	List<Vector3> takenSpaces;
 	GameObject placeholder;
 
-	public enabled = true;
+	public bool enabled = true;
 
 	// Use this for initialization
 	void Start () {
