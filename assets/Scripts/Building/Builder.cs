@@ -7,10 +7,13 @@ public class Builder : MonoBehaviour {
 	List<Vector3> takenSpaces;
 	GameObject placeholder;
 
+	GameManager manager;
 	public bool enabled = true;
 
 	// Use this for initialization
 	void Start () {
+		manager = Object.FindObjectOfType<GameManager>();
+
 		takenSpaces = new List<Vector3>();
 		placeholder = Resources.Load<GameObject>("Block");
 	}
