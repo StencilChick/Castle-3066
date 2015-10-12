@@ -65,8 +65,8 @@ public class Builder : MonoBehaviour {
 			placeholder = Resources.Load<GameObject>("Block");
 		}
 
-		if (GUI.Button(new Rect(145, 5, 128, 28), "Archer")) {
-			placeholder = Resources.Load<GameObject>("Archer");
+		if (GUI.Button(new Rect(145, 5, 128, 28), "Morter")) {
+			placeholder = Resources.Load<GameObject>("Morter");
 		}
 
 		if (GUI.Button(new Rect(285, 5, 128, 28), "Crossbow")) {
