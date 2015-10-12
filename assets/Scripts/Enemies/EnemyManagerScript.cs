@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class EnemyManagerScript : MonoBehaviour {
-	
+
+	GameManager manager;				// reference to the game manager
 	public GameObject enemy;			//A GameObject that holds the prefab of the enemy model and script
 	
 	private float enemyGap = 1.25f;		//The gap between each enemy
 	
 	private int enemyNumber = 0;		//The number of enemies currently on screen
 	public int enemiesKilled = 0;		//The number of enemies killed so far
+
+	bool levelActive = false;
 	
 	
 	
@@ -17,12 +20,17 @@ public class EnemyManagerScript : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-
+		manager = Object.FindObjectOfType<GameManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (levelActive) {
+			if (Object.FindObjectsOfType<EnemyScript>().Length == 0) {
+				levelActive = false;
+				manager.EndLevel();
+			}
+		}
 	}
 	
 	public void enemyKilled() {
@@ -52,5 +60,7 @@ public class EnemyManagerScript : MonoBehaviour {
 			}
 			transform.Translate(-enemyGap * count2, -1.4f, 0.0f);
 		}
+
+		levelActive = true;
 	}
 }
