@@ -26,23 +26,6 @@ public class EnemyManagerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		
-		
-		//Create 5 seperate rows of 11 enemies
-		int count = 5;
-		for (int j = 1; j <= count; j++)
-		{
-			int count2 = 11;
-			for (int i = 1; i <= count2; i++)
-			{
-				GameObject enemyClone = (GameObject)Instantiate(enemy, this.transform.position, this.transform.rotation);
-				enemyNumber++;
-				enemyList.Add(enemyClone);
-				transform.Translate(enemyGap, 0.0f, 0.0f);
-			}
-			transform.Translate(-enemyGap * count2, -1.4f, 0.0f);
-		}
-
 		manager = Object.FindObjectOfType<GameManager>();
 
 	}

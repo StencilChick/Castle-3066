@@ -7,6 +7,8 @@ public class Builder : MonoBehaviour {
 	List<Vector3> takenSpaces;
 	GameObject placeholder;
 
+	public enabled = true;
+
 	// Use this for initialization
 	void Start () {
 		takenSpaces = new List<Vector3>();
@@ -15,30 +17,32 @@ public class Builder : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
-			// place bricks
-			Vector3 pos = GetMousePos();
+		if (enabled) {
+			if (Input.GetMouseButtonDown(0)) {
+				// place bricks
+				Vector3 pos = GetMousePos();
 
-			if (pos.y >= 0 && pos.y < 4 && Mathf.Abs(pos.x) < 9) {
-				if (!takenSpaces.Contains(pos) && (takenSpaces.Contains(pos - Vector3.up) || pos.y == 0)) {
-					GameObject block = (GameObject)Instantiate(placeholder);
-					block.transform.position = pos;
+				if (pos.y >= 0 && pos.y < 4 && Mathf.Abs(pos.x) < 9) {
+					if (!takenSpaces.Contains(pos) && (takenSpaces.Contains(pos - Vector3.up) || pos.y == 0)) {
+						GameObject block = (GameObject)Instantiate(placeholder);
+						block.transform.position = pos;
 
-					takenSpaces.Add(pos);
+						takenSpaces.Add(pos);
+					}
 				}
-			}
-		} 
-		if (Input.GetMouseButtonDown(1)) {
-			// remove bricks
-			Vector3 pos = GetMousePos();
+			} 
+			if (Input.GetMouseButtonDown(1)) {
+				// remove bricks
+				Vector3 pos = GetMousePos();
 
-			if (takenSpaces.Contains(pos) && !takenSpaces.Contains(pos + Vector3.up)) {
-				GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
-				for (int i = 0; i < blocks.Length; i++) {
-					if (blocks[i].transform.position == pos) {
-						takenSpaces.Remove(blocks[i].transform.position);
-						Destroy(blocks[i]);
-						break;
+				if (takenSpaces.Contains(pos) && !takenSpaces.Contains(pos + Vector3.up)) {
+					GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
+					for (int i = 0; i < blocks.Length; i++) {
+						if (blocks[i].transform.position == pos) {
+							takenSpaces.Remove(blocks[i].transform.position);
+							Destroy(blocks[i]);
+							break;
+						}
 					}
 				}
 			}
@@ -61,16 +65,22 @@ public class Builder : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		if (GUI.Button(new Rect(5, 5, 128, 28), "Block")) {
-			placeholder = Resources.Load<GameObject>("Block");
-		}
+		if (enabled) {
+			if (GUI.Button(new Rect(Screen.width-138, 5, 128, 28), "Begin Level")) {
+				manager.BeginLevel();
+			}
 
-		if (GUI.Button(new Rect(145, 5, 128, 28), "Morter")) {
-			placeholder = Resources.Load<GameObject>("Morter");
-		}
+			if (GUI.Button(new Rect(5, 5, 128, 28), "Block")) {
+				placeholder = Resources.Load<GameObject>("Block");
+			}
 
-		if (GUI.Button(new Rect(285, 5, 128, 28), "Crossbow")) {
-			placeholder = Resources.Load<GameObject>("Crossbow");
+			if (GUI.Button(new Rect(145, 5, 128, 28), "Morter")) {
+				placeholder = Resources.Load<GameObject>("Morter");
+			}
+
+			if (GUI.Button(new Rect(285, 5, 128, 28), "Crossbow")) {
+				placeholder = Resources.Load<GameObject>("Crossbow");
+			}
 		}
 	}
 
