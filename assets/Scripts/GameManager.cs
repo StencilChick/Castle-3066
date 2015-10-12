@@ -7,12 +7,16 @@ public class GameManager : MonoBehaviour {
 	Builder builder;
 	EnemyManagerScript enemyManager;
 
-	int money = 0;
+	int money = 200;
 
 	// Use this for initialization
 	void Awake () {
 		builder = Object.FindObjectsOfType<Builder>()[0];
 		enemyManager = Object.FindObjectsOfType<EnemyManagerScript>()[0];
+	}
+
+	void OnGUI() {
+		GUI.Label(new Rect(5, 38, 128, 28), "$" + money);
 	}
 
 

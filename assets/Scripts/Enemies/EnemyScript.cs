@@ -15,6 +15,8 @@ public class EnemyScript : MonoBehaviour {
 	private bool movingRight = true;	//Keeps track of the direction the enemy is moving on the x axis
 	private bool isActive = true;		//Keeps track of whether or not this enemy is activated
 	private bool isDead = false;		//Keep track of if this enemy has been killed yet
+
+	public int moneyDrop = 15;
 	
 	
 	// Use this for initialization
@@ -81,6 +83,7 @@ public class EnemyScript : MonoBehaviour {
 	//void OnCollisionEnter(Collision col){
 	void OnTriggerEnter(Collider col){
 		manager.GetComponent<EnemyManagerScript>().enemyKilled();
+		Object.FindObjectsOfType<GameManager>()[0].AddMoney(moneyDrop);
 		Debug.Log ("Trigger entered");
 		//Destroy (gameObject);
 		Destroy (col.gameObject);

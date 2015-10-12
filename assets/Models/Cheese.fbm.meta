@@ -1,9 +1,27 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 7bb6ea6ed835c3e4cad694b9c5fb2a6e
+=======
+<<<<<<< HEAD
+guid: 4fe2d17b82f2edd4c862a7287e9dfc40
 folderAsset: yes
-timeCreated: 1444677141
+timeCreated: 1444677031
 licenseType: Pro
 DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+=======
+guid: 1d3d74e517c49ef428e89eb80bf2fd35
+>>>>>>> 74aed9659b06a9e68b18acbbb4455272e1459173
+folderAsset: yes
+timeCreated: 1444677141
+licenseType: Pro
+DefaultImporter:
+  userData: 
+<<<<<<< HEAD
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+>>>>>>> 9bdf113592b0a5ccde84d1e46c8c92b80cfd0234
+>>>>>>> 74aed9659b06a9e68b18acbbb4455272e1459173
