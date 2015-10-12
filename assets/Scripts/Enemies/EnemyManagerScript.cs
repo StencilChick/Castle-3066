@@ -4,12 +4,16 @@ using System.Collections.Generic;
 
 public class EnemyManagerScript : MonoBehaviour {
 	
-	public GameObject enemy;			//A GameObject that holds the prefab of the enemy model and script
+	public GameObject enemy;				//A GameObject that holds the prefab of the enemy model and script
+	public GameObject enemyProjectile;		//A GameObject that holds the prefab of the enemy projectile model and script
+
+	private float enemyGap = 1.25f;			//The gap between each enemy
 	
-	private float enemyGap = 1.25f;		//The gap between each enemy
-	
-	private int enemyNumber = 0;		//The number of enemies currently on screen
-	public int enemiesKilled = 0;		//The number of enemies killed so far
+	private int enemyNumber = 0;			//The number of enemies currently on screen
+	public int enemiesKilled = 0;			//The number of enemies killed so far
+
+	public float fireChance;				//The chance that an enemy is going to attack during a specific frame
+	public int firingEnemy;					//The randomly chosen enemy that will shoot
 	
 	
 	
@@ -37,7 +41,20 @@ public class EnemyManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		//Random chance to fire a projectile
+		int test = (int)Random.Range (1, 1 / fireChance);
+		if (test == 1) {
+			firingEnemy = Random.Range (0, enemyList.Count + 1);
+
+			while (enemyList[firingEnemy] == null && enemyList.Count+1 != enemiesKilled) {
+				firingEnemy = Random.Range (0, enemyList.Count + 1);
+			}
+
+			GameObject enemyProjectileClone = (GameObject)Instantiate (enemyProjectile, enemyList [firingEnemy].transform.position, enemyList [firingEnemy].transform.rotation);
+		}
+
+
 	}
 	
 	public void enemyKilled() {
