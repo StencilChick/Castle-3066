@@ -56,9 +56,9 @@ public class ShooterScript : MonoBehaviour {
 		if (mouseAim) { //aim at mouse if nessesary
 			Vector3 mousePt = Input.mousePosition;
 			mousePt.z -= mainCamera.transform.position.z;
-			
-			transform.rotation = Quaternion.LookRotation (mainCamera.ScreenToWorldPoint (mousePt) - transform.position);
-			transform.Rotate (0, 0, 0, Space.World);
+
+			//transform.rotation = Quaternion.LookRotation (mainCamera.ScreenToWorldPoint (mousePt) - transform.position);
+			//transform.Rotate (0, 0, 0, Space.World);
 
 			//pScript.mouseAim = mouseAim; // projectile is told to mouse aim as well
 		}
