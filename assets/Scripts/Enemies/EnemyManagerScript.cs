@@ -25,7 +25,7 @@ public class EnemyManagerScript : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-<<<<<<< HEAD
+
 		
 		
 		//Create 5 seperate rows of 11 enemies
@@ -42,9 +42,9 @@ public class EnemyManagerScript : MonoBehaviour {
 			}
 			transform.Translate(-enemyGap * count2, -1.4f, 0.0f);
 		}
-=======
+
 		manager = Object.FindObjectOfType<GameManager>();
->>>>>>> 74aed9659b06a9e68b18acbbb4455272e1459173
+
 	}
 	
 	// Update is called once per frame
@@ -83,8 +83,7 @@ public class EnemyManagerScript : MonoBehaviour {
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
+
 
 	public void CreateEnemies() {
 		//Create 5 seperate rows of 11 enemies
@@ -104,5 +103,5 @@ public class EnemyManagerScript : MonoBehaviour {
 
 		levelActive = true;
 	}
->>>>>>> 74aed9659b06a9e68b18acbbb4455272e1459173
+
 }
