@@ -69,7 +69,8 @@ public class Builder : MonoBehaviour {
 
 	void OnGUI() {
 		if (enabled) {
-			if (GUI.Button(new Rect(Screen.width-138, 5, 128, 28), "Begin Level")) {
+
+			if (GUI.Button(new Rect(Screen.width-138, Screen.height - 57, 128, 52), "<b>Begin Level</b>")) {
 				manager.BeginLevel();
 			}
 
