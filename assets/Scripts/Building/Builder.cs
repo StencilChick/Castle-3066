@@ -7,7 +7,6 @@ public class Builder : MonoBehaviour {
 	GameManager manager;
 
 	GameObject[,] blocks; 
-	List<Vector3> takenSpaces;
 
 	GameObject placeholder;
 	GameObject[] placeholders;
@@ -22,7 +21,6 @@ public class Builder : MonoBehaviour {
 	void Start () {
 		manager = Object.FindObjectOfType<GameManager>();
 
-		takenSpaces = new List<Vector3>();
 		blocks = new GameObject[gridWidth,gridHeight]; 
 
 		placeholders = Resources.LoadAll<GameObject>("Blocks");
@@ -39,52 +37,38 @@ public class Builder : MonoBehaviour {
 			// place bricks
 			Vector3 pos = GetMousePos();
 			
-			if (pos.y >= 0 && pos.y < gridHeight && Mathf.Abs(pos.x) < gridWidth/2) {
-				if(blocks[GetGridX((int)pos.x),(int)pos.y] == null){ //is position empty?
+			if (PosIsOnGrid (pos)) { //user is clicking within a valid space
+
+				int x = GetGridX((int)pos.x);
+				int y = (int)pos.y;
+
+				if(blocks[x,y] == null){ //is position empty?
 					if(pos.y == 0){ //building on ground?
 						SpawnBlock (pos);
 					}
-					else if(blocks[GetGridX ((int)pos.x),(int)pos.y-1] != null){ //building on top of another block?
+					else if(blocks[x,y-1] != null){ //building on top of another block?
 						SpawnBlock (pos);
 					}
 				}
-				/*
-				if (!takenSpaces.Contains(pos) && (takenSpaces.Contains(pos - Vector3.up) || pos.y == 0)) {
-					GameObject block = (GameObject)Instantiate(placeholder);
-					block.transform.position = pos;
-
-					blocks[pos.x,pos.y] = block;
-					takenSpaces.Add(pos);
-				}
-				*/
 			}
 		} 
 		if (Input.GetMouseButtonDown(1)) {
 			// remove bricks
 			Vector3 pos = GetMousePos();
 			
-			if (pos.y >= 0 && pos.y < gridHeight && Mathf.Abs(pos.x) < gridWidth/2) { //user is clicking within a valid space
-				GameObject block = blocks[(int)pos.x,(int)pos.y];
-				if(block != null){ //can't remove what isn't there
+			if (PosIsOnGrid (pos)) { //user is clicking within a valid space
+
+				int x = GetGridX((int)pos.x);
+				int y = (int)pos.y;
+
+				if(blocks[x,y] != null){ //can't remove what isn't there
 					//check if object is at max height or else dosen't have anything built ontop of it
-					if(!(pos.y != gridHeight-1 && blocks[(int)pos.x, (int)pos.y+1] != null) ){
-						Destroy (block);
-						blocks[(int)pos.x,(int)pos.y] = null;
+					if(!( (pos.y != gridHeight-1) && (blocks[x,y+1] != null)) ){
+						Destroy (blocks[x,y]);
+						blocks[x,y] = null;
 					}
 				}
 			}
-			/*
-			if (takenSpaces.Contains(pos) && !takenSpaces.Contains(pos + Vector3.up)) {
-				GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
-				for (int i = 0; i < blocks.Length; i++) {
-					if (blocks[i].transform.position == pos) {
-						takenSpaces.Remove(blocks[i].transform.position);
-						Destroy(blocks[i]);
-						break;
-					}
-				}
-			}
-			*/
 		}
 	}
 	
@@ -103,7 +87,7 @@ public class Builder : MonoBehaviour {
 	}
 	
 	
-	Vector3 GetMousePos() {
+	Vector3 GetMousePos() { //returns the coordinate of the mouse cursor based on the main camera, rounded to the nearest integer
 		Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
 		pos.x = Mathf.Round(pos.x); //- gridWidth/2;
 		pos.y = Mathf.Round(pos.y);
@@ -111,16 +95,25 @@ public class Builder : MonoBehaviour {
 		return pos;
 	}
 	
-	void SpawnBlock(Vector3 pos){
+	void SpawnBlock(Vector3 pos){ //spawns a block of type [placeholder], block is assigned to location pos and to corresponding grid index
 		GameObject block = (GameObject)Instantiate(placeholder);
 		block.transform.position = pos;
 		
 		blocks[GetGridX ((int)pos.x),(int)pos.y] = block;
-		takenSpaces.Add(pos);
 	}
 	
-	int GetGridX(int x){
+	public int GetGridX(int x){ //gets the x value for coordinate on grid
+		//because arrays can not have negative index, the x value in the grid is a bit off from actual coordinate, y value is normal
 		return x + gridWidth / 2;
+	}
+
+	bool PosIsOnGrid(Vector3 pos){ //returns true if the location is a space on the grid
+		return (pos.y >= 0 && pos.y < gridHeight && Mathf.Abs (pos.x) < gridWidth / 2);
+	}
+
+	//returns the game object occupying location on grid
+	public GameObject GetFromGrid(int x, int y){
+		return blocks[x,y];
 	}
 }
 
