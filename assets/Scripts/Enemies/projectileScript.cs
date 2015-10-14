@@ -18,15 +18,18 @@ public class projectileScript : MonoBehaviour {
 		if (mouseAim) {//if mouseAim, replaces aim with a vector pointing to mouse
 			Vector3 mousePt = Input.mousePosition;
 			mousePt.z -= mainCamera.transform.position.z;
-			Vector3 aimPt = mainCamera.ScreenToWorldPoint (mousePt);
-			aim = aimPt - transform.position;
-		} else {
-			aim = Vector3.up;
-		}
 
+			Vector3 mouseAngle = (mainCamera.ScreenToWorldPoint (mousePt) - transform.position);
+			float angle = Vector3.Angle( transform.up, mouseAngle); //determine angle between up vector and mouse
+			float sign = Mathf.Sign(Vector3.Dot(transform.forward, Vector3.Cross(transform.up, mouseAngle))); //get sign for rotation
+			angle *=sign; 
+			
+			transform.Rotate(0,0,angle);
+		} 
+		aim = Vector3.up;
 		//remove any z axis movement and normalize vector
 		aim.z = 0;
-		aim.Normalize ();//*/
+		//aim.Normalize ();//*/
 
 		//Debug.Log ("Mouse Position: "+Input.mousePosition+"       transform: "+transform.position+"                 Aim: "+aim);
 	}

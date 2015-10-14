@@ -9,6 +9,8 @@ public class ShooterScript : MonoBehaviour {
 	float timer = 0.0f;
 	public Object projectile;
 	public Vector3 spawnPt;
+
+	public float multiplier = 1; //attackspeed multiplier
 	
 	Vector3 aim;
 
@@ -26,8 +28,9 @@ public class ShooterScript : MonoBehaviour {
 	void Update () {
 
 
-		if (controlFire) { //fire on space press
-			if (Input.GetKeyDown("space")) {
+		if (controlFire) { //fire on left-click
+			//if (Input.GetKeyDown("space")) {
+			if (Input.GetMouseButtonDown(0)) {
 				if(timer == 0.0f){
 					//proj = (GameObject)Instantiate (projectile, transform.position + spawnPt, Quaternion.identity);
 					spawnProjectile ();
@@ -36,13 +39,13 @@ public class ShooterScript : MonoBehaviour {
 			}
 			//wait for [fireRate] seconds before can fire again
 			if (timer > 0) {
-				timer -= Time.deltaTime;
+				timer -= Time.deltaTime * multiplier;
 			}
 			if(timer < 0){
 				timer = 0;
 			}
 		} else { //fire on interval
-			timer += Time.deltaTime;
+			timer += Time.deltaTime * multiplier;
 			if (timer >= fireRate) {
 				timer -= fireRate;
 				
@@ -57,9 +60,24 @@ public class ShooterScript : MonoBehaviour {
 			Vector3 mousePt = Input.mousePosition;
 			mousePt.z -= mainCamera.transform.position.z;
 
-			//transform.rotation = Quaternion.LookRotation (mainCamera.ScreenToWorldPoint (mousePt) - transform.position);
-			//transform.Rotate (0, 0, 0, Space.World);
+			Vector3 mouseAngle = (mainCamera.ScreenToWorldPoint (mousePt) - transform.position);
 
+			float angle = Vector3.Angle( transform.up, mouseAngle); //determine angle between up vector and mouse
+			float sign = Mathf.Sign(Vector3.Dot(transform.forward, Vector3.Cross(transform.up, mouseAngle))); //get sign for rotation
+			angle *=sign; 
+
+			transform.Rotate(0,0,angle); //rotate by angle around Z axis
+
+			Debug.Log(transform.forward);
+			Debug.Log(transform.up);
+			//Debug.Log(transform.);
+		/*
+			Vector3 point =  (mainCamera.ScreenToWorldPoint (mousePt) - transform.position);
+			//point = Quaternion.Euler(0,90,0)*point;
+			//transform.rotation = Quaternion.LookRotation ((mainCamera.ScreenToWorldPoint (mousePt) - transform.position) );
+			transform.rotation = Quaternion.LookRotation (point, Vector3(0,0,1));
+			transform.Rotate (00, 90, 00, Space.World);
+		*/
 			//pScript.mouseAim = mouseAim; // projectile is told to mouse aim as well
 		}
 	}
