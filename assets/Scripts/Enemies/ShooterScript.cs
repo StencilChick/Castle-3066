@@ -62,34 +62,32 @@ public class ShooterScript : MonoBehaviour {
 
 			Vector3 mouseAngle = (mainCamera.ScreenToWorldPoint (mousePt) - transform.position);
 
-			float angle = Vector3.Angle( transform.up, mouseAngle); //determine angle between up vector and mouse
-			float sign = Mathf.Sign(Vector3.Dot(transform.forward, Vector3.Cross(transform.up, mouseAngle))); //get sign for rotation
-			angle *=sign; 
+			Quaternion rot = Quaternion.LookRotation(mouseAngle);
+			//rot*= Quaternion.FromToRotation(Vector3.forward, Vector3.up);
+			rot*= Quaternion.FromToRotation(Vector3.up, Vector3.forward);
+			rot*= Quaternion.FromToRotation(Vector3.right, Vector3.forward);
+			transform.rotation = rot;
 
-			transform.Rotate(0,0,angle); //rotate by angle around Z axis
-
-			Debug.Log(transform.forward);
-			Debug.Log(transform.up);
-			//Debug.Log(transform.);
-		/*
-			Vector3 point =  (mainCamera.ScreenToWorldPoint (mousePt) - transform.position);
-			//point = Quaternion.Euler(0,90,0)*point;
-			//transform.rotation = Quaternion.LookRotation ((mainCamera.ScreenToWorldPoint (mousePt) - transform.position) );
-			transform.rotation = Quaternion.LookRotation (point, Vector3(0,0,1));
-			transform.Rotate (00, 90, 00, Space.World);
-		*/
-			//pScript.mouseAim = mouseAim; // projectile is told to mouse aim as well
+			if(transform.forward.z < 0){
+				transform.Rotate(0,180,0);
+			}
+			//Debug.Log(transform.forward);
+			//Debug.Log(transform.up);
 		}
 	}
 
 	//synconizes projectile properties with shooter's properties, namely Mouse aim and main camera
 	private void spawnProjectile(){
-		GameObject proj = (GameObject)Instantiate (projectile, transform.position + spawnPt, Quaternion.identity);
+		//GameObject proj = (GameObject)Instantiate (projectile, transform.position + spawnPt, Quaternion.identity);
+		GameObject proj = (GameObject)Instantiate (projectile, transform.position + spawnPt, transform.rotation);
 		//proj.transform.Rotate (-90, 90, 0);
 
 		//GameObject proj = (GameObject)Instantiate (projectile, transform.position + spawnPt);
 		projectileScript pScript = proj.GetComponent<projectileScript> ();
 		pScript.mouseAim = mouseAim;
+		if (mouseAim) {
+			//proj.rotate(transform.rotation);
+		}
 		pScript.mainCamera = mainCamera;
 	}
 }
