@@ -43,11 +43,13 @@ public class Builder : MonoBehaviour {
 				int y = (int)pos.y;
 
 				if(blocks[x,y] == null){ //is position empty?
-					if(pos.y == 0){ //building on ground?
-						SpawnBlock (pos);
-					}
-					else if(blocks[x,y-1] != null){ //building on top of another block?
-						SpawnBlock (pos);
+					if (manager.SubtractMoney(placeholder.GetComponent<Block>().cost)) {
+						if(pos.y == 0){ //building on ground?
+							SpawnBlock (pos);
+						}
+						else if(blocks[x,y-1] != null){ //building on top of another block?
+							SpawnBlock (pos);
+						}
 					}
 				}
 			}
@@ -64,6 +66,8 @@ public class Builder : MonoBehaviour {
 				if(blocks[x,y] != null){ //can't remove what isn't there
 					//check if object is at max height or else dosen't have anything built ontop of it
 					if(!( (pos.y != gridHeight-1) && (blocks[x,y+1] != null)) ){
+						manager.AddMoney(blocks[x,y].GetComponent<Block>().GetResaleValue());
+
 						Destroy (blocks[x,y]);
 						blocks[x,y] = null;
 					}
@@ -79,7 +83,10 @@ public class Builder : MonoBehaviour {
 			}
 
 			int oldIndex = selectIndex;
-			selectIndex = GUI.SelectionGrid(new Rect(5, 5, 128*placeholders.Length, 28), selectIndex, buttons, placeholders.Length);
+
+			int width = Mathf.Min(128*placeholders.Length, Screen.width-10);
+			int height = Mathf.CeilToInt(placeholders.Length * 1.0f / Mathf.Floor(Screen.width*1.0f/128)) * 28;
+			selectIndex = GUI.SelectionGrid(new Rect(5, 5, width, height), selectIndex, buttons, placeholders.Length);
 			if (oldIndex != selectIndex) {
 				placeholder = placeholders[selectIndex];
 			}
