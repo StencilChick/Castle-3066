@@ -12,6 +12,8 @@ public class Builder : MonoBehaviour {
 	GameObject[] placeholders;
 	int selectIndex = 0;
 	GUIContent[] buttons;
+	int selectWidth;
+	int selectHeight;
 
 	
 	int gridHeight = 4;
@@ -29,6 +31,8 @@ public class Builder : MonoBehaviour {
 		for (int i = 0; i < buttons.Length; i++) {
 			buttons[i] = new GUIContent(placeholders[i].name);
 		}
+		selectWidth = Mathf.Min(128*placeholders.Length, Screen.width-80);
+		selectHeight = Mathf.CeilToInt(placeholders.Length * 1.0f / Mathf.Floor(Screen.width*1.0f/128)) * 28;
 	}
 	
 	// Update is called once per frame
@@ -84,9 +88,7 @@ public class Builder : MonoBehaviour {
 
 			int oldIndex = selectIndex;
 
-			int width = Mathf.Min(128*placeholders.Length, Screen.width-10);
-			int height = Mathf.CeilToInt(placeholders.Length * 1.0f / Mathf.Floor(Screen.width*1.0f/128)) * 28;
-			selectIndex = GUI.SelectionGrid(new Rect(5, 5, width, height), selectIndex, buttons, placeholders.Length);
+			selectIndex = GUI.SelectionGrid(new Rect(5, 5, selectWidth, selectHeight), selectIndex, buttons, placeholders.Length);
 			if (oldIndex != selectIndex) {
 				placeholder = placeholders[selectIndex];
 			}
