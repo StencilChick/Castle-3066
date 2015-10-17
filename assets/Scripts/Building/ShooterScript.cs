@@ -10,11 +10,15 @@ public class ShooterScript : MonoBehaviour {
 	public Object projectile;
 	public Vector3 spawnPt;
 
+	int x;
+	int y;
+
 	public float multiplier = 1; //attackspeed multiplier
 	
 	Vector3 aim;
 
 	Camera mainCamera;
+	Builder builder;
 	//GameObject proj; //last spawned projectile
 	//projectileScript pScript; //last spawned projectile's script
 
@@ -22,11 +26,57 @@ public class ShooterScript : MonoBehaviour {
 	void Start () {
 		mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 		aim = gameObject.transform.up;
+
+		builder = GameObject.Find ("Builder").GetComponent<Builder>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		int x = builder.GetGridX((int)transform.position.x);
+		int y = (int)transform.position.y;
+		multiplier = 1.0f;
+		if (x > 0) {
+			GameObject block = builder.GetFromGrid(x-1,y);
+			if(block!= null){
+				ArmoryScript a = block.GetComponent(typeof(ArmoryScript)) as ArmoryScript;
+				if(a!=null){
+					//Debug.Log("Multiplied");
+					multiplier *= a.multiplier;
+				}
+			}
+		}
+		if (x < builder.gridWidth-1) {
+			GameObject block = builder.GetFromGrid(x+1,y);
+			if(block!= null){
+				ArmoryScript a = block.GetComponent(typeof(ArmoryScript)) as ArmoryScript;
+				if(a!=null){
+					//Debug.Log("Multiplied");
+					multiplier *= a.multiplier;
+				}
+			}
+		}
 
+		if (y > 0) {
+			GameObject block = builder.GetFromGrid(x,y-1);
+			if(block!= null){
+				ArmoryScript a = block.GetComponent(typeof(ArmoryScript)) as ArmoryScript;
+				if(a!=null){
+					//Debug.Log("Multiplied");
+					multiplier *= a.multiplier;
+				}
+			}
+		}
+		if (y < builder.gridHeight-1) {
+			GameObject block = builder.GetFromGrid(x,y+1);
+			if(block!= null){
+				ArmoryScript a = block.GetComponent(typeof(ArmoryScript)) as ArmoryScript;
+				if(a!=null){
+					//Debug.Log("Multiplied");
+					multiplier *= a.multiplier;
+				}
+			}
+		}
 
 		if (controlFire) { //fire on left-click
 			//if (Input.GetKeyDown("space")) {
@@ -68,8 +118,8 @@ public class ShooterScript : MonoBehaviour {
 
 			transform.Rotate(0,0,angle); //rotate by angle around Z axis
 
-			Debug.Log(transform.forward);
-			Debug.Log(transform.up);
+		//	Debug.Log(transform.forward);
+		//	Debug.Log(transform.up);
 			//Debug.Log(transform.);
 		/*
 			Vector3 point =  (mainCamera.ScreenToWorldPoint (mousePt) - transform.position);

@@ -13,8 +13,8 @@ public class Builder : MonoBehaviour {
 	int selectIndex = 0;
 	GUIContent[] buttons;
 
-	int gridHeight = 4;
-	int gridWidth = 18;
+	public int gridHeight = 4;
+	public int gridWidth = 18;
 
 	int selectWidth;
 	int selectHeight;
