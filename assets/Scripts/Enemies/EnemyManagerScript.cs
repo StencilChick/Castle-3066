@@ -25,7 +25,9 @@ public class EnemyManagerScript : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+
 		manager = Object.FindObjectOfType<GameManager>();
+
 	}
 	
 	// Update is called once per frame
@@ -65,6 +67,7 @@ public class EnemyManagerScript : MonoBehaviour {
 		}
 	}
 
+
 	public void CreateEnemies() {
 		//Create 5 seperate rows of 11 enemies
 		int count = 5;
@@ -83,4 +86,5 @@ public class EnemyManagerScript : MonoBehaviour {
 
 		levelActive = true;
 	}
+
 }
