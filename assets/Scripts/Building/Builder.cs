@@ -52,11 +52,14 @@ public class Builder : MonoBehaviour {
 				int y = (int)pos.y;
 
 				if(blocks[x,y] == null){ //is position empty?
-					if (manager.SubtractMoney(placeholder.GetComponent<Block>().cost)) {
-						if(pos.y == 0){ //building on ground?
+
+					if(pos.y == 0){ //building on ground?
+						if (manager.SubtractMoney(placeholder.GetComponent<Block>().cost)) {
 							SpawnBlock (pos);
 						}
-						else if(blocks[x,y-1] != null){ //building on top of another block?
+					}
+					else if(blocks[x,y-1] != null){ //building on top of another block?
+						if (manager.SubtractMoney(placeholder.GetComponent<Block>().cost)) {
 							SpawnBlock (pos);
 						}
 					}
@@ -75,10 +78,14 @@ public class Builder : MonoBehaviour {
 				if(blocks[x,y] != null){ //can't remove what isn't there
 					//check if object is at max height or else dosen't have anything built ontop of it
 					if(!( (pos.y != gridHeight-1) && (blocks[x,y+1] != null)) ){
-						manager.AddMoney(blocks[x,y].GetComponent<Block>().GetResaleValue());
+						CheeseScript c = blocks[x,y].GetComponent(typeof(CheeseScript)) as CheeseScript;
+						//prevent sale if the object is cheese
+						if(c == null){
+							manager.AddMoney(blocks[x,y].GetComponent<Block>().GetResaleValue());
 
-						Destroy (blocks[x,y]);
-						blocks[x,y] = null;
+							Destroy (blocks[x,y]);
+							blocks[x,y] = null;
+						}
 					}
 				}
 			}
