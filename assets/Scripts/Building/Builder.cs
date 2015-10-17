@@ -13,9 +13,11 @@ public class Builder : MonoBehaviour {
 	int selectIndex = 0;
 	GUIContent[] buttons;
 
-	
 	int gridHeight = 4;
 	int gridWidth = 18;
+
+	int selectWidth;
+	int selectHeight;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +31,13 @@ public class Builder : MonoBehaviour {
 		for (int i = 0; i < buttons.Length; i++) {
 			buttons[i] = new GUIContent(placeholders[i].name);
 		}
+		selectWidth = Mathf.Min(128*placeholders.Length, Screen.width-80);
+		selectHeight = Mathf.CeilToInt(placeholders.Length * 1.0f / Mathf.Floor(Screen.width*1.0f/128)) * 28;
+
+
+		GameObject cheese = (GameObject)Instantiate(Resources.Load<GameObject>("Cheese"));
+		blocks [GetGridX(0), 0] = cheese; 
+		cheese.transform.position = new Vector3(0,0,0);
 	}
 	
 	// Update is called once per frame
@@ -43,11 +52,13 @@ public class Builder : MonoBehaviour {
 				int y = (int)pos.y;
 
 				if(blocks[x,y] == null){ //is position empty?
-					if(pos.y == 0){ //building on ground?
-						SpawnBlock (pos);
-					}
-					else if(blocks[x,y-1] != null){ //building on top of another block?
-						SpawnBlock (pos);
+					if (manager.SubtractMoney(placeholder.GetComponent<Block>().cost)) {
+						if(pos.y == 0){ //building on ground?
+							SpawnBlock (pos);
+						}
+						else if(blocks[x,y-1] != null){ //building on top of another block?
+							SpawnBlock (pos);
+						}
 					}
 				}
 			}
@@ -64,6 +75,8 @@ public class Builder : MonoBehaviour {
 				if(blocks[x,y] != null){ //can't remove what isn't there
 					//check if object is at max height or else dosen't have anything built ontop of it
 					if(!( (pos.y != gridHeight-1) && (blocks[x,y+1] != null)) ){
+						manager.AddMoney(blocks[x,y].GetComponent<Block>().GetResaleValue());
+
 						Destroy (blocks[x,y]);
 						blocks[x,y] = null;
 					}
