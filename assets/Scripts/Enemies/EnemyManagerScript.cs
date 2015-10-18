@@ -22,12 +22,14 @@ public class EnemyManagerScript : MonoBehaviour {
 	
 	
 	public List<GameObject> enemyList = new List<GameObject>();
+
+	Vector3 startPos;
 	
 	// Use this for initialization
 	void Start () {
 
 		manager = Object.FindObjectOfType<GameManager>();
-
+		startPos = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -69,6 +71,8 @@ public class EnemyManagerScript : MonoBehaviour {
 
 
 	public void CreateEnemies() {
+		transform.position = startPos;
+
 		//Create 5 seperate rows of 11 enemies
 		int count = 5;
 		for (int j = 1; j <= count; j++)
