@@ -12,12 +12,12 @@ public class Builder : MonoBehaviour {
 	GameObject[] placeholders;
 	int selectIndex = 0;
 	GUIContent[] buttons;
+
+	public int gridHeight = 4;
+	public int gridWidth = 18;
+
 	int selectWidth;
 	int selectHeight;
-
-	
-	int gridHeight = 4;
-	int gridWidth = 18;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +33,11 @@ public class Builder : MonoBehaviour {
 		}
 		selectWidth = Mathf.Min(128*placeholders.Length, Screen.width-80);
 		selectHeight = Mathf.CeilToInt(placeholders.Length * 1.0f / Mathf.Floor(Screen.width*1.0f/128)) * 28;
+
+
+		GameObject cheese = (GameObject)Instantiate(Resources.Load<GameObject>("Cheese"));
+		blocks [GetGridX(0), 0] = cheese; 
+		cheese.transform.position = new Vector3(0,0,0);
 	}
 	
 	// Update is called once per frame
@@ -47,11 +52,14 @@ public class Builder : MonoBehaviour {
 				int y = (int)pos.y;
 
 				if(blocks[x,y] == null){ //is position empty?
-					if (manager.SubtractMoney(placeholder.GetComponent<Block>().cost)) {
-						if(pos.y == 0){ //building on ground?
+
+					if(pos.y == 0){ //building on ground?
+						if (manager.SubtractMoney(placeholder.GetComponent<Block>().cost)) {
 							SpawnBlock (pos);
 						}
-						else if(blocks[x,y-1] != null){ //building on top of another block?
+					}
+					else if(blocks[x,y-1] != null){ //building on top of another block?
+						if (manager.SubtractMoney(placeholder.GetComponent<Block>().cost)) {
 							SpawnBlock (pos);
 						}
 					}
@@ -70,10 +78,14 @@ public class Builder : MonoBehaviour {
 				if(blocks[x,y] != null){ //can't remove what isn't there
 					//check if object is at max height or else dosen't have anything built ontop of it
 					if(!( (pos.y != gridHeight-1) && (blocks[x,y+1] != null)) ){
-						manager.AddMoney(blocks[x,y].GetComponent<Block>().GetResaleValue());
+						CheeseScript c = blocks[x,y].GetComponent(typeof(CheeseScript)) as CheeseScript;
+						//prevent sale if the object is cheese
+						if(c == null){
+							manager.AddMoney(blocks[x,y].GetComponent<Block>().GetResaleValue());
 
-						Destroy (blocks[x,y]);
-						blocks[x,y] = null;
+							Destroy (blocks[x,y]);
+							blocks[x,y] = null;
+						}
 					}
 				}
 			}
@@ -87,8 +99,7 @@ public class Builder : MonoBehaviour {
 			}
 
 			int oldIndex = selectIndex;
-
-			selectIndex = GUI.SelectionGrid(new Rect(5, 5, selectWidth, selectHeight), selectIndex, buttons, placeholders.Length);
+			selectIndex = GUI.SelectionGrid(new Rect(5, 5, 128*placeholders.Length, 28), selectIndex, buttons, placeholders.Length);
 			if (oldIndex != selectIndex) {
 				placeholder = placeholders[selectIndex];
 			}
