@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		GUI.Label(new Rect(Screen.width - 75, 5, 75, 28), "$" + money);
+		GUI.Label(new Rect(Screen.width - 125, 10, 125, 40), "<size=30>$" + money + "</size>");
 	}
 
 

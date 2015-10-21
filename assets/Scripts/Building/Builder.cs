@@ -19,6 +19,8 @@ public class Builder : MonoBehaviour {
 	int selectWidth;
 	int selectHeight;
 
+	public float hudScale = 1;
+
 	// Use this for initialization
 	void Start () {
 		manager = Object.FindObjectOfType<GameManager>();
@@ -31,8 +33,8 @@ public class Builder : MonoBehaviour {
 		for (int i = 0; i < buttons.Length; i++) {
 			buttons[i] = new GUIContent(placeholders[i].name);
 		}
-		selectWidth = Mathf.Min(128*placeholders.Length, Screen.width-80);
-		selectHeight = Mathf.CeilToInt(placeholders.Length * 1.0f / Mathf.Floor(Screen.width*1.0f/128)) * 28;
+		selectWidth = (int)Mathf.Min(128*placeholders.Length*hudScale, Screen.width-125);
+		selectHeight = (int)(Mathf.Ceil(placeholders.Length * hudScale / Mathf.Floor(Screen.width*1.0f/128/hudScale)) * 28*hudScale);
 
 
 		GameObject cheese = (GameObject)Instantiate(Resources.Load<GameObject>("Cheese"));
@@ -94,12 +96,12 @@ public class Builder : MonoBehaviour {
 	
 	void OnGUI() {
 		if (enabled) {
-			if (GUI.Button(new Rect(Screen.width-138, Screen.height - 57, 128, 52), "<b>Begin Level</b>")) {
+			if (GUI.Button(new Rect(Screen.width/2 - 218*hudScale/2, Screen.height/2 - 57*hudScale, 218*hudScale, 52*hudScale), "<b>Begin Level</b>")) {
 				manager.BeginLevel();
 			}
 
 			int oldIndex = selectIndex;
-			selectIndex = GUI.SelectionGrid(new Rect(5, 5, 128*placeholders.Length, 28), selectIndex, buttons, placeholders.Length);
+			selectIndex = GUI.SelectionGrid(new Rect(5, 5, selectWidth, selectHeight), selectIndex, buttons, placeholders.Length);
 			if (oldIndex != selectIndex) {
 				placeholder = placeholders[selectIndex];
 			}
