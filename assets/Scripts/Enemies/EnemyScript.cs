@@ -80,14 +80,19 @@ public class EnemyScript : MonoBehaviour {
 		fallingSpeed += fallIncrease;
 	}
 	
-	//void OnCollisionEnter(Collision col){
 	void OnTriggerEnter(Collider col){
-		manager.GetComponent<EnemyManagerScript>().enemyKilled();
-		Object.FindObjectsOfType<GameManager>()[0].AddMoney(moneyDrop);
-		Debug.Log ("Trigger entered");
-		//Destroy (gameObject);
-		Destroy (col.gameObject);
-		//Destroy(col.collider.gameObject);
-		Destroy(gameObject);
+
+		if( col.gameObject.name != "enemyProjectile(Clone)")
+		{
+			manager.GetComponent<EnemyManagerScript>().enemyKilled();
+			Object.FindObjectsOfType<GameManager>()[0].AddMoney(moneyDrop);
+			Debug.Log ("Trigger entered");
+			Destroy(gameObject);
+
+			Debug.Log (col.gameObject.name);
+			if (col.gameObject.name != "base"){
+				Destroy (col.gameObject);
+			}
+		}
 	}
 }
