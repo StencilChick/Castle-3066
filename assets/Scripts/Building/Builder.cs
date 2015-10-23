@@ -21,6 +21,8 @@ public class Builder : MonoBehaviour {
 
 	public float hudScale = 1;
 
+	GameObject placer; //holds an instance of the placeholder at mouse location
+
 	// Use this for initialization
 	void Start () {
 		manager = Object.FindObjectOfType<GameManager>();
@@ -92,17 +94,28 @@ public class Builder : MonoBehaviour {
 				}
 			}
 		}
+
+		if (enabled) {
+			if (placer == null) {
+				placer = (GameObject)Instantiate (placeholder);
+				placer.AddComponent<MouseMover> ();
+				Destroy(placer.GetComponent("ShooterScript"));
+				//Debug.Log("Update");
+			}
+		}
 	}
 	
 	void OnGUI() {
 		if (enabled) {
 			if (GUI.Button(new Rect(Screen.width/2 - 218*hudScale/2, Screen.height/2 - 57*hudScale, 218*hudScale, 52*hudScale), "<b>Begin Level</b>")) {
+				Destroy(placer);
 				manager.BeginLevel();
 			}
 
 			int oldIndex = selectIndex;
 			selectIndex = GUI.SelectionGrid(new Rect(5, 5, selectWidth, selectHeight), selectIndex, buttons, placeholders.Length);
 			if (oldIndex != selectIndex) {
+				Destroy(placer);
 				placeholder = placeholders[selectIndex];
 			}
 		}
