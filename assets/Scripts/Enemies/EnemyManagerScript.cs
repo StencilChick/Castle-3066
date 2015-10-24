@@ -40,10 +40,10 @@ public class EnemyManagerScript : MonoBehaviour {
 			//Random chance to fire a projectile
 			int test = (int)Random.Range (1, 1 / fireChance);
 			if (test == 1) {
-				firingEnemy = Random.Range (0, enemyList.Count + 1);
+				firingEnemy = Random.Range (0, enemyList.Count);
 				
 				while (enemyList[firingEnemy] == null && enemyList.Count+1 != enemiesKilled) {
-					firingEnemy = Random.Range (0, enemyList.Count + 1);
+					firingEnemy = Random.Range (0, enemyList.Count);
 				}
 				
 				GameObject enemyProjectileClone = (GameObject)Instantiate (enemyProjectile, enemyList [firingEnemy].transform.position, enemyList [firingEnemy].transform.rotation);
