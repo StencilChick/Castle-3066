@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TextScroll : MonoBehaviour {
 
+	public string textName = "textscroll";
 	string text;
 
 	public int padding = 0;
@@ -15,7 +16,7 @@ public class TextScroll : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		text = Resources.Load<TextAsset>("Text/textscroll").text;
+		text = Resources.Load<TextAsset>("Text/" + textName).text;
 
 		y = Screen.height;
 		textHeight = style.CalcHeight(new GUIContent(text), Screen.width-padding*2);
