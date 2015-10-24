@@ -118,6 +118,8 @@ public class Builder : MonoBehaviour {
 				Destroy(placer);
 				placeholder = placeholders[selectIndex];
 			}
+			
+			GUI.Box(new Rect(5, selectHeight + 15, selectWidth, 56), placeholder.GetComponent<Block>().description);
 		}
 	}
 	
