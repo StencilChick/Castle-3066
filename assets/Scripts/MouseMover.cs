@@ -8,8 +8,10 @@ public class MouseMover : MonoBehaviour {
 	public float c_dist;
 	public bool placeError = false;
 	
-	Color originalColor;
+	Color[] originalColors;
 	Color c;
+
+	Material[] mats;
 
 	GameManager gm;
 	Builder builder;
@@ -18,10 +20,18 @@ public class MouseMover : MonoBehaviour {
 	void Start () {
 		mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 		c_dist = -mainCamera.transform.position.z;
-		c = GetComponent<Renderer>().material.color;
-		originalColor = c;
-		gm=Object.FindObjectOfType<GameManager>();
 		builder=Object.FindObjectOfType<Builder>();
+		gm=Object.FindObjectOfType<GameManager>();
+
+		mats = GetComponent<Renderer>().materials;
+		originalColors = new Color [mats.Length];
+		for(int i = 0; i < mats.Length; i++) {
+			originalColors[i] = mats[i].color;
+		}
+		/*
+		originalColor = c;
+		*/
+
 	}
 	
 	// Update is called once per frame
@@ -34,7 +44,8 @@ public class MouseMover : MonoBehaviour {
 		//mousePt.z = 0;
 		//Debug.Log (Input.mousePosition);
 		//Debug.Log (mousePt);
-		
+		///*
+		/// 
 		Builder b = Object.FindObjectOfType<Builder> ();
 		
 		//only move object on grid
@@ -74,12 +85,21 @@ public class MouseMover : MonoBehaviour {
 		}
 		
 		if (placeError) {
-			c.r = 1.0f;
-			c.b = 0.1f;
-			c.g = 0.1f;
+			foreach(Material m in mats){
+				c = m.color;
+				c.r = 1.0f;
+				c.b = 0.1f;
+				c.g = 0.1f;
+				m.SetColor("_Color", c);
+				//Debug.Log("PlaceError");
+			}
 		} else {
-			c = originalColor;
+			for(int i = 0; i < mats.Length; i++) {
+				mats[i].SetColor("_Color", originalColors[i]);
+			}
 		}
-		GetComponent<Renderer>().material.SetColor("_Color",c);
+		GetComponent<Renderer> ().materials = mats;
+		//GetComponent<Renderer>().material.SetColor("_Color",c);
+		//*/
 	}
 }
