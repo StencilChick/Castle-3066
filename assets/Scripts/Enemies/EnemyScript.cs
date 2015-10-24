@@ -28,6 +28,9 @@ public class EnemyScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (this.transform.position.y < -3)
+			Destroy(this);
 		
 		
 		//If this enemy has been activated, but not yet killed...
@@ -86,13 +89,22 @@ public class EnemyScript : MonoBehaviour {
 		{
 			manager.GetComponent<EnemyManagerScript>().enemyKilled();
 			Object.FindObjectsOfType<GameManager>()[0].AddMoney(moneyDrop);
-			Debug.Log ("Trigger entered");
-			Destroy(gameObject);
 
-			Debug.Log (col.gameObject.name);
-			if (col.gameObject.name != "base"){
-				Destroy (col.gameObject);
+			if (col.gameObject.name == "Cheese(Clone)") 
+			{
+				Application.LoadLevel ("GameOver");
+				
+			}
+			if( col.gameObject.name == "Block(Clone)" || col.gameObject.name == "Crossbow(Clone)" || col.gameObject.name == "Morter(Clone)" || col.gameObject.name == "Armory(Clone)")
+			{
+				Destroy(col.gameObject);
+			}
+			
+			if( col.gameObject.name != "Enemy(Clone)" && col.gameObject.name != "EnemyProjectile(Clone)")
+			{
+				Destroy(gameObject);
+			}
 			}
 		}
-	}
+
 }
