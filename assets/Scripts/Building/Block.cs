@@ -8,6 +8,8 @@ public class Block : MonoBehaviour {
 	int health;
 
 	public int cost = 10;
+	
+	public string description = "A block";
 
 	void Start() {
 		health = maxHealth;

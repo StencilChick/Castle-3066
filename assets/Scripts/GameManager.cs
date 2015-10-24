@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	Builder builder;
 	EnemyManagerScript enemyManager;
-
+	float moneyMult = 1.0f;
 	int money = 200;
 
 	// Use this for initialization
@@ -30,13 +30,17 @@ public class GameManager : MonoBehaviour {
 
 
 	public void AddMoney(int v) {
-		money += v;
+		float imon = v * moneyMult;
+		money += (int) Mathf.Ceil(imon);
 	}
 	public bool SubtractMoney(int v) {
 		if (money < v) return false;
 
 		money -= v;
 		return true;
+	}
+	public void modifyMult(float m){
+		moneyMult += m;
 	}
 
 	public int GetMoney() {

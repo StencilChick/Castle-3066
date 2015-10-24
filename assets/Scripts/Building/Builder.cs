@@ -33,7 +33,7 @@ public class Builder : MonoBehaviour {
 		placeholder = placeholders[0];
 		buttons = new GUIContent[placeholders.Length];
 		for (int i = 0; i < buttons.Length; i++) {
-			buttons[i] = new GUIContent(placeholders[i].name);
+			buttons[i] = new GUIContent(placeholders[i].name + " $"+placeholders[i].GetComponent<Block>().cost);
 		}
 		selectWidth = (int)Mathf.Min(128*placeholders.Length*hudScale, Screen.width-125);
 		selectHeight = (int)(Mathf.Ceil(placeholders.Length * hudScale / Mathf.Floor(Screen.width*1.0f/128/hudScale)) * 28*hudScale);
@@ -118,6 +118,8 @@ public class Builder : MonoBehaviour {
 				Destroy(placer);
 				placeholder = placeholders[selectIndex];
 			}
+			
+			GUI.Box(new Rect(5, selectHeight + 15, selectWidth, 56), placeholder.GetComponent<Block>().description);
 		}
 	}
 	

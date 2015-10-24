@@ -20,13 +20,9 @@ public class EnemyProjectileScript : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col){
 
-		Debug.Log ("CHEEESE");
+		Debug.Log("test");
 
-		if (col.gameObject.name == "Cheese(Clone)") 
-		{
-			Application.LoadLevel("GameOver");
-		}
-		if( col.gameObject.name == "Block(Clone)" || col.gameObject.name == "Crossbow(Clone)" || col.gameObject.name == "Morter(Clone)" || col.gameObject.name == "Armory(Clone)")
+		if( col.gameObject.name == "Block(Clone)" || col.gameObject.name == "Cheese(Clone)" || col.gameObject.name == "Crossbow(Clone)" || col.gameObject.name == "Morter(Clone)" || col.gameObject.name == "Armory(Clone)")
 		{
 			Destroy(col.gameObject);
 		}
